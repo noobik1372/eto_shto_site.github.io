@@ -1,4 +1,5 @@
 <!doctype html>
+
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
@@ -21,8 +22,7 @@
     .links{display:grid;gap:12px}
     .link{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--card);border-radius:12px;text-decoration:none;color:inherit;border:1px solid rgba(255,255,255,0.03);transition:transform .12s ease,box-shadow .12s ease}
     .link:hover{transform:translateY(-4px);box-shadow:0 8px 20px rgba(124,92,255,0.12)}
-    .icon{width:44px;height:44px;border-radius:10px;display:inline-grid;place-items:center;background:var(--glass);flex:0 0 44px;overflow:hidden}
-    .icon img { max-width: 100%; max-height: 100%; }
+    .icon{width:44px;height:44px;border-radius:10px;display:inline-grid;place-items:center;background:var(--glass);flex:0 0 44px}
     .link .meta{flex:1}
     .meta .title{font-weight:600}
     .meta .subtitle{font-size:13px;color:var(--muted)}
@@ -37,7 +37,7 @@
     <header style="text-align:center">
       <div class="avatar">ES</div>
       <h1>eto_shto</h1>
-      <p class="lead">Minecraft | TikTok | Forum's</p>
+      <p class="lead">Gamer | TikTok | Forum's</p>
     </header>
     <section class="links" aria-label="Ссылки">
 
@@ -85,7 +85,11 @@
       <!-- Standoff 2 -->
       <a class="link" href="https://link.standoff2.com/ru/profile/view/180375348" target="_blank" rel="noopener noreferrer">
         <div class="icon" aria-hidden="true">
-          <img src="https://upload.wikimedia.org/wikipedia/ru/0/0f/Standoff_2_Logo.png" alt="Standoff 2 Logo" />
+          <!-- Standoff 2 svg -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" fill="#ff4444"/>
+            <path d="M8 8h8v2h-3v6h-2v-6H8V8z" fill="white"/>
+          </svg>
         </div>
         <div class="meta">
           <div class="title">Standoff 2</div>
@@ -99,6 +103,7 @@
       <div class="brand"><span class="small"></span></div>
       <div class="small"><strong></strong></div>
     </footer>
+
   </main>
 </body>
 </html>
