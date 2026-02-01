@@ -1,26 +1,25 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>eto_shto — links</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>eto_shto — ссылки</title>
 
   <style>
     :root{
-      --bg:#0b0e1a;
-      --card:#12162a;
+      --bg:#0f1226;
+      --card:#111323;
       --accent:#7c5cff;
       --muted:#9aa0b4;
-      --glass:rgba(255,255,255,.06);
+      --glass: rgba(255,255,255,0.04);
     }
-
     *{box-sizing:border-box}
 
     body{
       margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
       color:#e6e9f2;
-      background:linear-gradient(180deg,var(--bg),#05060c);
+      background:linear-gradient(180deg,var(--bg),#070712);
       min-height:100vh;
       display:flex;
       align-items:center;
@@ -28,17 +27,63 @@
       padding:24px;
     }
 
-    /* ===== Background video (PC only) ===== */
+    .card{
+      width:100%;
+      max-width:420px;
+      background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);
+      border-radius:18px;
+      padding:28px;
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow:0 10px 30px rgba(2,6,23,0.6);
+      z-index:2;
+    }
+
+    h1{margin:0;font-size:20px;text-align:center}
+    p.lead{color:var(--muted);margin:6px 0 18px;text-align:center}
+
+    .links{display:grid;gap:12px}
+
+    .link{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px 14px;
+      background:var(--card);
+      border-radius:12px;
+      text-decoration:none;
+      color:inherit;
+      border:1px solid rgba(255,255,255,0.03);
+      transition:transform .12s ease,box-shadow .12s ease;
+    }
+    .link:hover{
+      transform:translateY(-4px);
+      box-shadow:0 8px 20px rgba(124,92,255,0.12)
+    }
+
+    .icon{
+      width:44px;
+      height:44px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      background:var(--glass);
+      flex:0 0 44px
+    }
+
+    .meta .title{font-weight:600}
+    .meta .subtitle{font-size:13px;color:var(--muted)}
+
+    /* ===== Background videos ===== */
     .bg-video-wrapper{
       position:fixed;
       inset:0;
-      z-index:-1;
+      z-index:0;
       overflow:hidden;
       background:#000;
     }
 
     @media (max-width:1024px){
-      .bg-video-wrapper{display:none;}
+      .bg-video-wrapper{display:none}
     }
 
     .bg-video{
@@ -49,11 +94,9 @@
       opacity:0;
       transition:opacity 1.2s ease;
     }
+    .bg-video.active{opacity:0.35}
 
-    .bg-video.active{
-      opacity:.35;
-    }
-
+    /* ===== Volume slider ===== */
     .volume-control{
       position:fixed;
       top:20px;
@@ -64,58 +107,11 @@
       background:rgba(0,0,0,.6);
       padding:8px 12px;
       border-radius:12px;
+      color:#fff;
       backdrop-filter:blur(8px);
-      z-index:20;
+      z-index:5;
     }
-
     .volume-control input{width:90px}
-
-    /* ===== Card ===== */
-    .card{
-      width:100%;
-      max-width:440px;
-      background:linear-gradient(180deg,rgba(255,255,255,.04),transparent);
-      border-radius:18px;
-      padding:26px;
-      border:1px solid rgba(255,255,255,.06);
-      box-shadow:0 20px 50px rgba(0,0,0,.6);
-    }
-
-    h1{margin:0;font-size:22px;text-align:center}
-    .lead{margin:6px 0 20px;color:var(--muted);text-align:center}
-
-    .links{display:grid;gap:12px}
-
-    .link{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      padding:12px 14px;
-      background:var(--card);
-      border-radius:14px;
-      text-decoration:none;
-      color:inherit;
-      border:1px solid rgba(255,255,255,.05);
-      transition:.15s ease;
-    }
-
-    .link:hover{
-      transform:translateY(-4px);
-      box-shadow:0 10px 25px rgba(124,92,255,.15);
-    }
-
-    .icon{
-      width:46px;
-      height:46px;
-      border-radius:12px;
-      display:grid;
-      place-items:center;
-      background:var(--glass);
-      flex:0 0 46px;
-    }
-
-    .meta .title{font-weight:600}
-    .meta .subtitle{font-size:13px;color:var(--muted)}
   </style>
 </head>
 
@@ -123,32 +119,32 @@
 
 <!-- ===== Background videos ===== -->
 <div class="bg-video-wrapper">
-  <video class="bg-video active" src="bg1.mp4" muted loop playsinline></video>
-  <video class="bg-video" src="bg2.mp4" muted loop playsinline></video>
+  <video class="bg-video active" src="bg1.mp4" loop playsinline></video>
+  <video class="bg-video" src="bg2.mp4" loop playsinline></video>
 
   <div class="volume-control">
-    🔊 <input type="range" min="0" max="1" step="0.01" value="0">
+    🔊
+    <input type="range" min="0" max="1" step="0.01" value="0">
   </div>
 </div>
 
 <main class="card">
   <h1>eto_shto</h1>
-  <div class="lead">Links & socials</div>
+  <p class="lead">Games | TikTok | Forum's</p>
 
   <section class="links">
 
-    <!-- Telegram 1 -->
+    <!-- Telegram -->
     <a class="link" href="https://t.me/eto_shto_tg_akk" target="_blank">
-      <div class="icon">📨</div>
+      <div class="icon">TG</div>
       <div class="meta">
         <div class="title">Telegram</div>
         <div class="subtitle">t.me/eto_shto_tg_akk</div>
       </div>
     </a>
 
-    <!-- Telegram 2 -->
     <a class="link" href="https://t.me/eto_shto_tg_kanal" target="_blank">
-      <div class="icon">📢</div>
+      <div class="icon">TG</div>
       <div class="meta">
         <div class="title">Telegram канал</div>
         <div class="subtitle">t.me/eto_shto_tg_kanal</div>
@@ -157,7 +153,7 @@
 
     <!-- TikTok -->
     <a class="link" href="https://www.tiktok.com/@eto_shto_kanal_v_tt" target="_blank">
-      <div class="icon">🎵</div>
+      <div class="icon">TT</div>
       <div class="meta">
         <div class="title">TikTok</div>
         <div class="subtitle">@eto_shto_kanal_v_tt</div>
@@ -166,16 +162,16 @@
 
     <!-- YouTube -->
     <a class="link" href="https://youtube.com/@eto_shto_kanal_v_yt" target="_blank">
-      <div class="icon">▶️</div>
+      <div class="icon">YT</div>
       <div class="meta">
         <div class="title">YouTube</div>
         <div class="subtitle">@eto_shto_kanal_v_yt</div>
       </div>
     </a>
 
-    <!-- Minecraft-Inside -->
+    <!-- Minecraft Inside -->
     <a class="link" href="https://minecraft-inside.ru/user/eto_shto_main/" target="_blank">
-      <div class="icon">⛏️</div>
+      <div class="icon">MC</div>
       <div class="meta">
         <div class="title">Minecraft-Inside</div>
         <div class="subtitle">eto_shto_main</div>
@@ -184,7 +180,7 @@
 
     <!-- Twitch -->
     <a class="link" href="https://www.twitch.tv/eto_shto_twitch" target="_blank">
-      <div class="icon">🟣</div>
+      <div class="icon">TW</div>
       <div class="meta">
         <div class="title">Twitch</div>
         <div class="subtitle">eto_shto_twitch</div>
@@ -193,28 +189,28 @@
 
     <!-- Steam -->
     <a class="link" href="https://steamcommunity.com/id/eto_shto_akk/" target="_blank">
-      <div class="icon">🎮</div>
+      <div class="icon">ST</div>
       <div class="meta">
         <div class="title">Steam</div>
         <div class="subtitle">eto_shto_akk</div>
       </div>
     </a>
 
-    <!-- Standoff 2 -->
+    <!-- Standoff -->
     <a class="link" href="https://link.standoff2.com/ru/profile/view/180375348" target="_blank">
-      <div class="icon">🔫</div>
+      <div class="icon">SO2</div>
       <div class="meta">
         <div class="title">Standoff 2</div>
-        <div class="subtitle">Профиль</div>
+        <div class="subtitle">profile</div>
       </div>
     </a>
 
     <!-- Discord -->
     <a class="link" href="https://discord.gg/9FN6p5gaPZ" target="_blank">
-      <div class="icon">💬</div>
+      <div class="icon">DS</div>
       <div class="meta">
         <div class="title">Discord</div>
-        <div class="subtitle">discord.gg/9FN6p5gaPZ</div>
+        <div class="subtitle">discord.gg</div>
       </div>
     </a>
 
@@ -226,20 +222,24 @@
   const volume = document.querySelector('.volume-control input');
   let current = 0;
 
-  videos.forEach(v => {
+  videos.forEach(v=>{
     v.volume = 0;
-    v.play();
+    v.muted = true;
+    v.play().catch(()=>{});
   });
 
-  volume.addEventListener('input', () => {
-    videos.forEach(v => v.volume = volume.value);
+  volume.addEventListener('input', ()=>{
+    videos.forEach(v=>{
+      v.muted = false;
+      v.volume = volume.value;
+    });
   });
 
-  setInterval(() => {
+  setInterval(()=>{
     videos[current].classList.remove('active');
-    current = (current + 1) % videos.length;
+    current = (current+1)%videos.length;
     videos[current].classList.add('active');
-  }, 15000);
+  },15000);
 </script>
 
 </body>
