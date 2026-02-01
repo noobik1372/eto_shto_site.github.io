@@ -14,6 +14,31 @@
       --glass: rgba(255,255,255,0.04);
     }
     *{box-sizing:border-box}
+
+<script>
+  const videos = document.querySelectorAll('.bg-video');
+  const volume = document.querySelector('.volume-control input');
+
+  let current = 0;
+
+  // Запуск видео
+  videos.forEach(v => {
+    v.volume = 0;
+    v.play();
+  });
+
+  // Управление громкостью
+  volume.addEventListener('input', () => {
+    videos.forEach(v => v.volume = volume.value);
+  });
+
+  // Переключение видео
+  setInterval(() => {
+    videos[current].classList.remove('active');
+    current = (current + 1) % videos.length;
+    videos[current].classList.add('active');
+  }, 15000); // 15 секунд
+</script>
     body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial;color:#e6e9f2;background:linear-gradient(180deg,var(--bg),#070712);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
     .card{width:100%;max-width:420px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:18px;padding:28px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 10px 30px rgba(2,6,23,0.6)}
     .avatar{width:84px;height:84px;border-radius:16px;background:linear-gradient(135deg,var(--accent),#3aa0ff);display:inline-grid;place-items:center;font-weight:700;font-size:28px;color:white;margin-bottom:14px}
@@ -40,6 +65,20 @@
       <p class="lead">Games | TikTok | Forum's</p>
     </header>
     <section class="links" aria-label="Ссылки">
+
+      <!-- ===== Background videos (PC only) ===== -->
+<div class="bg-video-wrapper">
+
+  <video class="bg-video active" src="bg1.mp4" muted loop playsinline></video>
+  <video class="bg-video" src="bg2.mp4" muted loop playsinline></video>
+
+  <!-- Volume control -->
+  <div class="volume-control">
+    🔊
+    <input type="range" min="0" max="1" step="0.01" value="0">
+  </div>
+
+</div>
 
       <!-- Telegram 1 -->
       <a class="link" href="https://t.me/eto_shto_tg_akk" target="_blank" rel="noopener noreferrer">
@@ -161,6 +200,55 @@
           <div class="subtitle">discord.gg/9FN6p5gaPZ</div>
         </div>
       </a>
+
+      /* ===== Background video ===== */
+.bg-video-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: #000;
+}
+
+/* ❌ Скрываем на телефонах */
+@media (max-width: 1024px) {
+  .bg-video-wrapper {
+    display: none;
+  }
+}
+
+.bg-video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.bg-video.active {
+  opacity: 0.35; /* прозрачность фона */
+}
+
+/* ===== Volume slider ===== */
+.volume-control {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,0,0,0.6);
+  padding: 8px 12px;
+  border-radius: 12px;
+  color: white;
+  backdrop-filter: blur(8px);
+  z-index: 20;
+}
+
+.volume-control input {
+  width: 90px;
+}
 
     </section>
 
