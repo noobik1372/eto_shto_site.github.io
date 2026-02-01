@@ -217,11 +217,11 @@
 
     <!-- Visitor counter -->
 <div class="link counter">
-  <div class="icon">👁️</div>
+  <div class="icon">👁</div>
   <div class="meta">
     <div class="title">Посещений</div>
     <div class="subtitle">
-      <span id="visitor-count">загрузка...</span>
+      <span id="visitor-count">0</span>
     </div>
   </div>
 </div>
@@ -271,16 +271,17 @@
       videos[current].play().catch(()=>{});
     });
   });
-const namespace = 'eto-shto-site'; // любое уникальное имя
-const key = 'visits';
 
-fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+const counter = document.getElementById('visitor-count');
+
+fetch('https://api.countapi.xyz/update/eto_shto_site_2026/visits/?amount=1')
   .then(res => res.json())
   .then(data => {
-    document.getElementById('visitor-count').textContent = data.value;
+    counter.textContent = data.value;
   })
-  .catch(() => {
-    document.getElementById('visitor-count').textContent = 'ошибка';
+  .catch(err => {
+    console.error(err);
+    counter.textContent = '—';
   });
 </script>
 
