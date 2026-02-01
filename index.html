@@ -130,7 +130,7 @@
 
 <main class="card">
   <h1>eto_shto</h1>
-  <p class="lead">Links | Game's profile</p>
+  <p class="lead">Links | Games</p>
 
   <section class="links">
 
@@ -147,7 +147,7 @@
       <div class="icon">TG</div>
       <div class="meta">
         <div class="title">Telegram канал</div>
-        <div class="subtitle">t.me/eto_shto_tg_kanal</div>
+        <div class="subtitle">t.me/eto_shto_tg_kanал</div>
       </div>
     </a>
 
@@ -165,7 +165,7 @@
       <div class="icon">YT</div>
       <div class="meta">
         <div class="title">YouTube</div>
-        <div class="subtitle">@eto_shto_kanal_v_yt</div>
+        <div class="subtitle">@eto_shto_v_yt</div>
       </div>
     </a>
 
@@ -224,20 +224,19 @@
   let current = 0;
   let userInteracted = false;
 
-  // старт
+  // старт: все видео мутим кроме первого
   videos.forEach((v, i) => {
     v.volume = 0;
     v.muted = true;
-    if (i === 0) v.classList.add('active');
+    if(i === 0) v.classList.add('active');
     v.play().catch(()=>{});
   });
 
   // громкость
   volume.addEventListener('input', () => {
     userInteracted = true;
-
     videos.forEach((v, i) => {
-      if (i === current) {
+      if(i === current){
         v.muted = false;
         v.volume = volume.value;
       } else {
@@ -246,20 +245,25 @@
     });
   });
 
-  // переключение видео
-  setInterval(() => {
-    videos[current].classList.remove('active');
-    videos[current].muted = true;
+  // переключение по окончанию видео
+  videos.forEach((v, i) => {
+    v.addEventListener('ended', () => {
+      // отключаем старое
+      v.classList.remove('active');
+      v.muted = true;
 
-    current = (current + 1) % videos.length;
+      // следующее видео
+      current = (current + 1) % videos.length;
+      const next = videos[current];
+      next.classList.add('active');
 
-    videos[current].classList.add('active');
-
-    if (userInteracted) {
-      videos[current].muted = false;
-      videos[current].volume = volume.value;
-    }
-  }, 15000);
+      if(userInteracted){
+        next.muted = false;
+        next.volume = volume.value;
+      }
+      next.play().catch(()=>{});
+    });
+  });
 </script>
 
 </body>
