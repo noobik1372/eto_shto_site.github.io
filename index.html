@@ -220,26 +220,46 @@
 <script>
   const videos = document.querySelectorAll('.bg-video');
   const volume = document.querySelector('.volume-control input');
-  let current = 0;
 
-  videos.forEach(v=>{
+  let current = 0;
+  let userInteracted = false;
+
+  // старт
+  videos.forEach((v, i) => {
     v.volume = 0;
     v.muted = true;
+    if (i === 0) v.classList.add('active');
     v.play().catch(()=>{});
   });
 
-  volume.addEventListener('input', ()=>{
-    videos.forEach(v=>{
-      v.muted = false;
-      v.volume = volume.value;
+  // громкость
+  volume.addEventListener('input', () => {
+    userInteracted = true;
+
+    videos.forEach((v, i) => {
+      if (i === current) {
+        v.muted = false;
+        v.volume = volume.value;
+      } else {
+        v.muted = true;
+      }
     });
   });
 
-  setInterval(()=>{
+  // переключение видео
+  setInterval(() => {
     videos[current].classList.remove('active');
-    current = (current+1)%videos.length;
+    videos[current].muted = true;
+
+    current = (current + 1) % videos.length;
+
     videos[current].classList.add('active');
-  },15000);
+
+    if (userInteracted) {
+      videos[current].muted = false;
+      videos[current].volume = volume.value;
+    }
+  }, 15000);
 </script>
 
 </body>
