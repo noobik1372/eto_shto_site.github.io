@@ -230,6 +230,50 @@
 </main>
 
 <script>
+const counterEl = document.getElementById('visitor-count');
+let currentValue = 0;
+
+const URL = 'https://api.countapi.xyz/hit/eto_shto_links_ultra_984351/visits';
+
+// анимация
+function animateTo(target) {
+  const start = currentValue;
+  const diff = target - start;
+  const duration = 700;
+  const startTime = performance.now();
+
+  function frame(t) {
+    const p = Math.min((t - startTime) / duration, 1);
+    const val = Math.floor(start + diff * p);
+    counterEl.textContent = val;
+
+    if (p < 1) requestAnimationFrame(frame);
+    else currentValue = target;
+  }
+
+  requestAnimationFrame(frame);
+}
+
+// первый заход
+fetch(URL)
+  .then(r => r.json())
+  .then(d => {
+    animateTo(d.value);
+  })
+  .catch(() => {
+    counterEl.textContent = '—';
+  });
+
+// обновление каждые 2.5 минуты
+setInterval(() => {
+  fetch(URL)
+    .then(r => r.json())
+    .then(d => animateTo(d.value))
+    .catch(()=>{});
+}, 150000);
+</script>
+
+<script>
   const videos = document.querySelectorAll('.bg-video');
   const volume = document.querySelector('.volume-control input');
 
@@ -271,68 +315,6 @@
       videos[current].play().catch(()=>{});
     });
   });
-</script>
-
-<script>
-const counterEl = document.getElementById('visitor-count');
-let currentValue = 0;
-
-// уникальный ключ (НЕ МЕНЯЙ без нужды)
-const COUNTER_URL = 'https://api.countapi.xyz';
-const NAMESPACE = 'eto_shto_links_ultra_984351';
-const KEY = 'visits';
-
-// анимация счётчика
-function animateTo(target) {
-  const start = currentValue;
-  const diff = target - start;
-  const duration = 800; // мс
-  const startTime = performance.now();
-
-  function frame(time) {
-    const progress = Math.min((time - startTime) / duration, 1);
-    const value = Math.floor(start + diff * progress);
-    counterEl.textContent = value;
-
-    if (progress < 1) {
-      requestAnimationFrame(frame);
-    } else {
-      currentValue = target;
-    }
-  }
-
-  requestAnimationFrame(frame);
-}
-
-// получить текущее значение
-function fetchCount() {
-  fetch(`${COUNTER_URL}/get/${NAMESPACE}/${KEY}`)
-    .then(r => r.json())
-    .then(data => {
-      const value = data.value ?? 0;
-      animateTo(value);
-    })
-    .catch(() => {
-      counterEl.textContent = '—';
-    });
-}
-
-// увеличить при первом заходе
-function hitCount() {
-  fetch(`${COUNTER_URL}/hit/${NAMESPACE}/${KEY}`)
-    .then(r => r.json())
-    .then(data => {
-      animateTo(data.value ?? currentValue);
-    })
-    .catch(() => {});
-}
-
-// ===== запуск =====
-fetchCount();
-hitCount();
-
-// 🔁 обновление каждые 2.5 минуты
-setInterval(fetchCount, 150000); // 150 000 мс = 2.5 мин
 </script>
 
 </body>
