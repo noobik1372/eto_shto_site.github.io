@@ -119,8 +119,8 @@
 
 <!-- ===== Background videos ===== -->
 <div class="bg-video-wrapper">
-  <video class="bg-video active" src="bg1.mp4" loop playsinline></video>
-  <video class="bg-video" src="bg2.mp4" loop playsinline></video>
+  <video class="bg-video active" src="bg1.mp4" playsinline></video>
+  <video class="bg-video" src="bg2.mp4" playsinline></video>
 
   <div class="volume-control">
     🔊
@@ -134,7 +134,7 @@
 
   <section class="links">
 
-    <!-- Telegram -->
+    <!-- Telegram 1 -->
     <a class="link" href="https://t.me/eto_shto_tg_akk" target="_blank">
       <div class="icon">TG</div>
       <div class="meta">
@@ -143,11 +143,12 @@
       </div>
     </a>
 
+    <!-- Telegram 2 -->
     <a class="link" href="https://t.me/eto_shto_tg_kanal" target="_blank">
       <div class="icon">TG</div>
       <div class="meta">
         <div class="title">Telegram канал</div>
-        <div class="subtitle">t.me/eto_shto_tg_kanал</div>
+        <div class="subtitle">t.me/eto_shto_tg_kanal</div>
       </div>
     </a>
 
@@ -165,7 +166,7 @@
       <div class="icon">YT</div>
       <div class="meta">
         <div class="title">YouTube</div>
-        <div class="subtitle">@eto_shto_v_yt</div>
+        <div class="subtitle">@eto_shto_kanал_v_yt</div>
       </div>
     </a>
 
@@ -196,7 +197,7 @@
       </div>
     </a>
 
-    <!-- Standoff -->
+    <!-- Standoff 2 -->
     <a class="link" href="https://link.standoff2.com/ru/profile/view/180375348" target="_blank">
       <div class="icon">SO2</div>
       <div class="meta">
@@ -224,7 +225,7 @@
   let current = 0;
   let userInteracted = false;
 
-  // старт: все видео мутим кроме первого
+  // старт: все видео без звука кроме активного
   videos.forEach((v, i) => {
     v.volume = 0;
     v.muted = true;
@@ -248,20 +249,15 @@
   // переключение по окончанию видео
   videos.forEach((v, i) => {
     v.addEventListener('ended', () => {
-      // отключаем старое
       v.classList.remove('active');
-      v.muted = true;
-
-      // следующее видео
-      current = (current + 1) % videos.length;
-      const next = videos[current];
-      next.classList.add('active');
+      current = (i + 1) % videos.length;
+      videos[current].classList.add('active');
 
       if(userInteracted){
-        next.muted = false;
-        next.volume = volume.value;
+        videos[current].muted = false;
+        videos[current].volume = volume.value;
       }
-      next.play().catch(()=>{});
+      videos[current].play().catch(()=>{});
     });
   });
 </script>
