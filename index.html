@@ -217,61 +217,17 @@
 
     <!-- Visitor counter -->
 <div class="link counter">
-  <div class="icon">👁</div>
+  <div class="icon"></div>
   <div class="meta">
-    <div class="title">Посещений</div>
+    <div class="title">Список друзей</div>
     <div class="subtitle">
-      <span id="visitor-count">0</span>
+      <span id="visitor-count">soon...</span>
     </div>
   </div>
 </div>
 
   </section>
 </main>
-
-<script>
-const counterEl = document.getElementById('visitor-count');
-let currentValue = 0;
-
-const URL = 'https://api.countapi.xyz/hit/eto_shto_links_ultra_984351/visits';
-
-// анимация
-function animateTo(target) {
-  const start = currentValue;
-  const diff = target - start;
-  const duration = 700;
-  const startTime = performance.now();
-
-  function frame(t) {
-    const p = Math.min((t - startTime) / duration, 1);
-    const val = Math.floor(start + diff * p);
-    counterEl.textContent = val;
-
-    if (p < 1) requestAnimationFrame(frame);
-    else currentValue = target;
-  }
-
-  requestAnimationFrame(frame);
-}
-
-// первый заход
-fetch(URL)
-  .then(r => r.json())
-  .then(d => {
-    animateTo(d.value);
-  })
-  .catch(() => {
-    counterEl.textContent = '—';
-  });
-
-// обновление каждые 2.5 минуты
-setInterval(() => {
-  fetch(URL)
-    .then(r => r.json())
-    .then(d => animateTo(d.value))
-    .catch(()=>{});
-}, 150000);
-</script>
 
 <script>
   const videos = document.querySelectorAll('.bg-video');
