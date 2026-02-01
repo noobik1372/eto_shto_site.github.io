@@ -1,262 +1,246 @@
 <!doctype html>
-
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>eto_shto — ссылки</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>eto_shto — links</title>
+
   <style>
     :root{
-      --bg:#0f1226;
-      --card:#111323;
+      --bg:#0b0e1a;
+      --card:#12162a;
       --accent:#7c5cff;
       --muted:#9aa0b4;
-      --glass: rgba(255,255,255,0.04);
+      --glass:rgba(255,255,255,.06);
     }
+
     *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
+      color:#e6e9f2;
+      background:linear-gradient(180deg,var(--bg),#05060c);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+
+    /* ===== Background video (PC only) ===== */
+    .bg-video-wrapper{
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      overflow:hidden;
+      background:#000;
+    }
+
+    @media (max-width:1024px){
+      .bg-video-wrapper{display:none;}
+    }
+
+    .bg-video{
+      position:absolute;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      opacity:0;
+      transition:opacity 1.2s ease;
+    }
+
+    .bg-video.active{
+      opacity:.35;
+    }
+
+    .volume-control{
+      position:fixed;
+      top:20px;
+      right:20px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      background:rgba(0,0,0,.6);
+      padding:8px 12px;
+      border-radius:12px;
+      backdrop-filter:blur(8px);
+      z-index:20;
+    }
+
+    .volume-control input{width:90px}
+
+    /* ===== Card ===== */
+    .card{
+      width:100%;
+      max-width:440px;
+      background:linear-gradient(180deg,rgba(255,255,255,.04),transparent);
+      border-radius:18px;
+      padding:26px;
+      border:1px solid rgba(255,255,255,.06);
+      box-shadow:0 20px 50px rgba(0,0,0,.6);
+    }
+
+    h1{margin:0;font-size:22px;text-align:center}
+    .lead{margin:6px 0 20px;color:var(--muted);text-align:center}
+
+    .links{display:grid;gap:12px}
+
+    .link{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px 14px;
+      background:var(--card);
+      border-radius:14px;
+      text-decoration:none;
+      color:inherit;
+      border:1px solid rgba(255,255,255,.05);
+      transition:.15s ease;
+    }
+
+    .link:hover{
+      transform:translateY(-4px);
+      box-shadow:0 10px 25px rgba(124,92,255,.15);
+    }
+
+    .icon{
+      width:46px;
+      height:46px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      background:var(--glass);
+      flex:0 0 46px;
+    }
+
+    .meta .title{font-weight:600}
+    .meta .subtitle{font-size:13px;color:var(--muted)}
+  </style>
+</head>
+
+<body>
+
+<!-- ===== Background videos ===== -->
+<div class="bg-video-wrapper">
+  <video class="bg-video active" src="bg1.mp4" muted loop playsinline></video>
+  <video class="bg-video" src="bg2.mp4" muted loop playsinline></video>
+
+  <div class="volume-control">
+    🔊 <input type="range" min="0" max="1" step="0.01" value="0">
+  </div>
+</div>
+
+<main class="card">
+  <h1>eto_shto</h1>
+  <div class="lead">Links & socials</div>
+
+  <section class="links">
+
+    <!-- Telegram 1 -->
+    <a class="link" href="https://t.me/eto_shto_tg_akk" target="_blank">
+      <div class="icon">📨</div>
+      <div class="meta">
+        <div class="title">Telegram</div>
+        <div class="subtitle">t.me/eto_shto_tg_akk</div>
+      </div>
+    </a>
+
+    <!-- Telegram 2 -->
+    <a class="link" href="https://t.me/eto_shto_tg_kanal" target="_blank">
+      <div class="icon">📢</div>
+      <div class="meta">
+        <div class="title">Telegram канал</div>
+        <div class="subtitle">t.me/eto_shto_tg_kanal</div>
+      </div>
+    </a>
+
+    <!-- TikTok -->
+    <a class="link" href="https://www.tiktok.com/@eto_shto_kanal_v_tt" target="_blank">
+      <div class="icon">🎵</div>
+      <div class="meta">
+        <div class="title">TikTok</div>
+        <div class="subtitle">@eto_shto_kanal_v_tt</div>
+      </div>
+    </a>
+
+    <!-- YouTube -->
+    <a class="link" href="https://youtube.com/@eto_shto_kanal_v_yt" target="_blank">
+      <div class="icon">▶️</div>
+      <div class="meta">
+        <div class="title">YouTube</div>
+        <div class="subtitle">@eto_shto_kanal_v_yt</div>
+      </div>
+    </a>
+
+    <!-- Minecraft-Inside -->
+    <a class="link" href="https://minecraft-inside.ru/user/eto_shto_main/" target="_blank">
+      <div class="icon">⛏️</div>
+      <div class="meta">
+        <div class="title">Minecraft-Inside</div>
+        <div class="subtitle">eto_shto_main</div>
+      </div>
+    </a>
+
+    <!-- Twitch -->
+    <a class="link" href="https://www.twitch.tv/eto_shto_twitch" target="_blank">
+      <div class="icon">🟣</div>
+      <div class="meta">
+        <div class="title">Twitch</div>
+        <div class="subtitle">eto_shto_twitch</div>
+      </div>
+    </a>
+
+    <!-- Steam -->
+    <a class="link" href="https://steamcommunity.com/id/eto_shto_akk/" target="_blank">
+      <div class="icon">🎮</div>
+      <div class="meta">
+        <div class="title">Steam</div>
+        <div class="subtitle">eto_shto_akk</div>
+      </div>
+    </a>
+
+    <!-- Standoff 2 -->
+    <a class="link" href="https://link.standoff2.com/ru/profile/view/180375348" target="_blank">
+      <div class="icon">🔫</div>
+      <div class="meta">
+        <div class="title">Standoff 2</div>
+        <div class="subtitle">Профиль</div>
+      </div>
+    </a>
+
+    <!-- Discord -->
+    <a class="link" href="https://discord.gg/9FN6p5gaPZ" target="_blank">
+      <div class="icon">💬</div>
+      <div class="meta">
+        <div class="title">Discord</div>
+        <div class="subtitle">discord.gg/9FN6p5gaPZ</div>
+      </div>
+    </a>
+
+  </section>
+</main>
 
 <script>
   const videos = document.querySelectorAll('.bg-video');
   const volume = document.querySelector('.volume-control input');
-
   let current = 0;
 
-  // Запуск видео
   videos.forEach(v => {
     v.volume = 0;
     v.play();
   });
 
-  // Управление громкостью
   volume.addEventListener('input', () => {
     videos.forEach(v => v.volume = volume.value);
   });
 
-  // Переключение видео
   setInterval(() => {
     videos[current].classList.remove('active');
     current = (current + 1) % videos.length;
     videos[current].classList.add('active');
-  }, 15000); // 15 секунд
+  }, 15000);
 </script>
-    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial;color:#e6e9f2;background:linear-gradient(180deg,var(--bg),#070712);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
-    .card{width:100%;max-width:420px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:18px;padding:28px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 10px 30px rgba(2,6,23,0.6)}
-    .avatar{width:84px;height:84px;border-radius:16px;background:linear-gradient(135deg,var(--accent),#3aa0ff);display:inline-grid;place-items:center;font-weight:700;font-size:28px;color:white;margin-bottom:14px}
-    h1{margin:0;font-size:20px}
-    p.lead{color:var(--muted);margin:6px 0 18px}
-    .links{display:grid;gap:12px}
-    .link{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--card);border-radius:12px;text-decoration:none;color:inherit;border:1px solid rgba(255,255,255,0.03);transition:transform .12s ease,box-shadow .12s ease}
-    .link:hover{transform:translateY(-4px);box-shadow:0 8px 20px rgba(124,92,255,0.12)}
-    .icon{width:44px;height:44px;border-radius:10px;display:inline-grid;place-items:center;background:var(--glass);flex:0 0 44px}
-    .link .meta{flex:1}
-    .meta .title{font-weight:600}
-    .meta .subtitle{font-size:13px;color:var(--muted)}
-    .footer{margin-top:16px;font-size:13px;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
-    .brand{display:flex;gap:8px;align-items:center}
-    .small{font-size:12px;color:var(--muted)}
-    @media (max-width:420px){.card{padding:20px}}
-  </style>
-</head>
-<body>
-  <main class="card" role="main">
-    <header style="text-align:center">
-      <div class="avatar">ES</div>
-      <h1>eto_shto</h1>
-      <p class="lead">Games | TikTok | Forum's</p>
-    </header>
-    <section class="links" aria-label="Ссылки">
 
-      <!-- ===== Background videos (PC only) ===== -->
-<div class="bg-video-wrapper">
-
-  <video class="bg-video active" src="bg1.mp4" muted loop playsinline></video>
-  <video class="bg-video" src="bg2.mp4" muted loop playsinline></video>
-
-  <!-- Volume control -->
-  <div class="volume-control">
-    🔊
-    <input type="range" min="0" max="1" step="0.01" value="0">
-  </div>
-
-</div>
-
-      <!-- Telegram 1 -->
-      <a class="link" href="https://t.me/eto_shto_tg_akk" target="_blank" rel="noopener noreferrer">
-        <div class="icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M120 0C53.73 0 0 53.73 0 120s53.73 120 120 120 120-53.73 120-120S186.27 0 120 0z" fill="#2AABEE"/>
-            <path d="M49 123.5l143-57c6-2.5 7.5 0.5 5 6L155 167c-2 5-6 6-11 4L116 157 79 182c-5 2-8-1-6-6l19-53-43-28c-5-3-5-6 2-8z" fill="white"/>
-          </svg>
-        </div>
-        <div class="meta">
-          <div class="title">Telegram</div>
-          <div class="subtitle">t.me/eto_shto_tg_akk</div>
-        </div>
-      </a>
-
-      <!-- Telegram 2 (new) -->
-      <a class="link" href="https://t.me/eto_shto_tg_kanal" target="_blank" rel="noopener noreferrer">
-        <div class="icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="120" cy="120" r="120" fill="#2AABEE"/>
-            <path d="M49 123.5l143-57c6-2.5 7.5 0.5 5 6L155 167c-2 5-6 6-11 4L116 157 79 182c-5 2-8-1-6-6l19-53-43-28c-5-3-5-6 2-8z" fill="white"/>
-          </svg>
-        </div>
-        <div class="meta">
-          <div class="title">Telegram Канал</div>
-          <div class="subtitle">t.me/eto_shto_tg_kanal</div>
-        </div>
-      </a>
-
-      <!-- TikTok -->
-      <a class="link" href="https://www.tiktok.com/@eto_shto_kanal_v_tt?_t=ZP-90rr83Yco9O&_r=1" target="_blank" rel="noopener noreferrer">
-        <div class="icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 3v10.5A4.5 4.5 0 1 0 13.5 18V6h4V3h-8z" fill="#010101"/>
-          </svg>
-        </div>
-        <div class="meta">
-          <div class="title">TikTok</div>
-          <div class="subtitle">@eto_shto_kanal_v_tt</div>
-        </div>
-      </a>
-
-      <!-- YouTube (new) -->
-      <a class="link" href="https://youtube.com/@eto_shto_kanal_v_yt?si=DjaYyA-262ZeZ9nh" target="_blank" rel="noopener noreferrer">
-        <div class="icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="24" height="24" rx="6" fill="#FF0000"/>
-            <path d="M10 8l6 4-6 4V8z" fill="white"/>
-          </svg>
-        </div>
-        <div class="meta">
-          <div class="title">YouTube</div>
-          <div class="subtitle">@eto_shto_канал_v_yt</div>
-        </div>
-      </a>
-
-      <!-- Minecraft-Inside -->
-      <a class="link" href="https://minecraft-inside.ru/user/eto_shto_main/" target="_blank" rel="noopener noreferrer">
-        <div class="icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="3" y="8" width="18" height="11" rx="2" fill="#6cc24a"/>
-            <path d="M7 5l5 3 5-3v2l-5 3-5-3V5z" fill="#3b7f2a"/>
-          </svg>
-        </div>
-        <div class="meta">
-          <div class="title">Minecraft-Inside</div>
-          <div class="subtitle">eto_shto_main</div>
-        </div>
-      </a>
-
-      <!-- Twitch -->
-<a class="link" href="https://www.twitch.tv/eto_shto_twitch" target="_blank" rel="noopener noreferrer">
-  <div class="icon" aria-hidden="true">
-    <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path fill="#9146FF" d="M4 2L2 6v14h6v2h4l2-2h4l4-4V2H4zm16 12l-2 2h-4l-2 2h-2v-2H6V4h14v10z"/>
-      <path fill="white" d="M16 7h-2v5h2V7zm-5 0H9v5h2V7z"/>
-    </svg>
-  </div>
-  <div class="meta">
-    <div class="title">Twitch</div>
-    <div class="subtitle">twitch.tv/eto_shto_twitch</div>
-  </div>
-</a>
-
-      <!-- Steam -->
-<a class="link" href="https://steamcommunity.com/id/eto_shto_akk/" target="_blank" rel="noopener noreferrer">
-  <div class="icon" aria-hidden="true">
-    <svg width="20" height="20" viewBox="0 0 496 512" xmlns="http://www.w3.org/2000/svg">
-      <path fill="white" d="M496 256c0 137-111 248-248 248-94.98 0-177.55-53.81-218.54-132.22l92.22 36.7c4.13 22.83 24.08 40.16 48.05 40.16 27.11 0 49.11-21.79 49.86-48.83l78.72-63.12c52.67 1.31 95.32-40.15 95.32-92.58 0-51.26-41.61-92.88-92.88-92.88-50.7 0-91.78 40.59-92.81 91.14l-62.3 79.31c-22.76.39-43.53 14.4-51.49 36.48L61.2 192.35C100.51 109.84 180.64 56 280.02 56 385.02 56 472 142.98 472 248c0 4.39-.11 8.76-.32 13.12C486.87 280.77 496 269.02 496 256zM316.71 175.55c28.95 0 52.42 23.47 52.42 52.42s-23.47 52.42-52.42 52.42c-28.95 0-52.42-23.47-52.42-52.42 0-28.95 23.47-52.42 52.42-52.42zm-99.23 144.22c13.94 5.55 19.4 20.72 13.79 34.67-5.55 13.94-20.72 19.4-34.67 13.79-13.94-5.55-19.4-20.72-13.79-34.67 5.55-13.94 20.72-19.4 34.67-13.79z"/>
-    </svg>
-  </div>
-  <div class="meta">
-    <div class="title">Steam</div>
-    <div class="subtitle">steamcommunity.com/id/eto_shto_akk</div>
-  </div>
-</a>
-
-      <!-- Standoff 2 -->
-      <a class="link" href="https://link.standoff2.com/ru/profile/view/180375348" target="_blank" rel="noopener noreferrer">
-        <div class="icon" aria-hidden="true">
-          <circle cx="12" cy="12" r="10" fill="#ff4444"/>
-          <path d="M8 8h8v2h-3v6h-2v-6H8V8z" fill="white"/>
-        </div>
-        <div class="meta">
-          <div class="title">Standoff 2</div>
-          <div class="subtitle">link.standoff2.com</div>
-        </div>
-      </a>
-
-      <!-- Discord -->
-      <a class="link" href="https://discord.gg/9FN6p5gaPZ" target="_blank" rel="noopener noreferrer">
-        <div class="icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 71 55" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M60.104 4.552A58.897 58.897 0 0 0 46.695.5a41.967 41.967 0 0 0-1.99 4.128 55.25 55.25 0 0 0-16.41 0A41.872 41.872 0 0 0 25.305.5a58.897 58.897 0 0 0-13.41 4.052C3.59 20.014 1.21 35.503 2.79 50.5a59.48 59.48 0 0 0 17.606 5.5c1.33-1.827 2.527-3.774 3.568-5.826a41.425 41.425 0 0 1-6.08-2.908c.513-.374 1.02-.765 1.516-1.17a44.914 44.914 0 0 0 34.336 0c.496.405 1.003.796 1.516 1.17a41.46 41.46 0 0 1-6.08 2.908 59.534 59.534 0 0 0 3.568 5.826 59.48 59.48 0 0 0 17.606-5.5c1.58-15-0.8-30.486-14.706-45.948zM23.59 37.668c-3.207 0-5.848-2.94-5.848-6.564 0-3.623 2.6-6.564 5.848-6.564 3.248 0 5.857 2.94 5.848 6.564 0 3.623-2.6 6.564-5.848 6.564zm23.82 0c-3.207 0-5.848-2.94-5.848-6.564 0-3.623 2.6-6.564 5.848-6.564 3.248 0 5.857 2.94 5.848 6.564 0 3.623-2.6 6.564-5.848 6.564z" fill="#7289DA"/>
-          </svg>
-        </div>
-        <div class="meta">
-          <div class="title">Discord</div>
-          <div class="subtitle">discord.gg/9FN6p5gaPZ</div>
-        </div>
-      </a>
-
-      /* ===== Background video ===== */
-.bg-video-wrapper {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-  background: #000;
-}
-
-/* ❌ Скрываем на телефонах */
-@media (max-width: 1024px) {
-  .bg-video-wrapper {
-    display: none;
-  }
-}
-
-.bg-video {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 1.2s ease;
-}
-
-.bg-video.active {
-  opacity: 0.35; /* прозрачность фона */
-}
-
-/* ===== Volume slider ===== */
-.volume-control {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(0,0,0,0.6);
-  padding: 8px 12px;
-  border-radius: 12px;
-  color: white;
-  backdrop-filter: blur(8px);
-  z-index: 20;
-}
-
-.volume-control input {
-  width: 90px;
-}
-
-    </section>
-
-    <footer class="footer">
-      <div class="brand"><span class="small"></span></div>
-      <div class="small"><strong></strong></div>
-    </footer>
-
-  </main>
 </body>
-          </html>
+</html>
