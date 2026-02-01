@@ -271,18 +271,68 @@
       videos[current].play().catch(()=>{});
     });
   });
+</script>
 
-const counter = document.getElementById('visitor-count');
+<script>
+const counterEl = document.getElementById('visitor-count');
+let currentValue = 0;
 
-fetch('https://api.countapi.xyz/update/eto_shto_site_2026/visits/?amount=1')
-  .then(res => res.json())
-  .then(data => {
-    counter.textContent = data.value;
-  })
-  .catch(err => {
-    console.error(err);
-    counter.textContent = '—';
-  });
+// уникальный ключ (НЕ МЕНЯЙ без нужды)
+const COUNTER_URL = 'https://api.countapi.xyz';
+const NAMESPACE = 'eto_shto_links_ultra_984351';
+const KEY = 'visits';
+
+// анимация счётчика
+function animateTo(target) {
+  const start = currentValue;
+  const diff = target - start;
+  const duration = 800; // мс
+  const startTime = performance.now();
+
+  function frame(time) {
+    const progress = Math.min((time - startTime) / duration, 1);
+    const value = Math.floor(start + diff * progress);
+    counterEl.textContent = value;
+
+    if (progress < 1) {
+      requestAnimationFrame(frame);
+    } else {
+      currentValue = target;
+    }
+  }
+
+  requestAnimationFrame(frame);
+}
+
+// получить текущее значение
+function fetchCount() {
+  fetch(`${COUNTER_URL}/get/${NAMESPACE}/${KEY}`)
+    .then(r => r.json())
+    .then(data => {
+      const value = data.value ?? 0;
+      animateTo(value);
+    })
+    .catch(() => {
+      counterEl.textContent = '—';
+    });
+}
+
+// увеличить при первом заходе
+function hitCount() {
+  fetch(`${COUNTER_URL}/hit/${NAMESPACE}/${KEY}`)
+    .then(r => r.json())
+    .then(data => {
+      animateTo(data.value ?? currentValue);
+    })
+    .catch(() => {});
+}
+
+// ===== запуск =====
+fetchCount();
+hitCount();
+
+// 🔁 обновление каждые 2.5 минуты
+setInterval(fetchCount, 150000); // 150 000 мс = 2.5 мин
 </script>
 
 </body>
