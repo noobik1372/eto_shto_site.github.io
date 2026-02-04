@@ -221,47 +221,53 @@
 </main>
 
 <script>
-  const videos = document.querySelectorAll('.bg-video');
-  const volume = document.querySelector('.volume-control input');
+const videos = document.querySelectorAll('.bg-video');
+const volume = document.querySelector('.volume-control input');
 
-  let current = 0;
-  let userInteracted = false;
+let current = 0;
+let userInteracted = false;
 
-  // старт: все видео без звука кроме активного
-  videos.forEach((v, i) => {
-    v.volume = 0;
-    v.muted = true;
-    if(i === 0) v.classList.add('active');
-    v.play().catch(()=>{});
+// инициализация
+videos.forEach((v, i) => {
+  v.muted = true;
+  v.pause();
+  v.currentTime = 0;
+  if (i === 0) v.classList.add('active');
+});
+
+// старт первого
+videos[0].play().catch(()=>{});
+
+// громкость
+volume.addEventListener('input', () => {
+  userInteracted = true;
+  videos[current].muted = false;
+  videos[current].volume = volume.value;
+});
+
+// переключение функции
+function switchVideo(next) {
+  if (videos.length <= 1) return;
+
+  videos[current].pause();
+  videos[current].currentTime = 0;
+  videos[current].classList.remove('active');
+
+  current = next;
+
+  videos[current].classList.add('active');
+  videos[current].muted = !userInteracted;
+  videos[current].volume = volume.value;
+
+  videos[current].play().catch(()=>{});
+}
+
+// 🔁 переключение ПО ОКОНЧАНИЮ видео
+videos.forEach((video, index) => {
+  video.addEventListener('ended', () => {
+    switchVideo((index + 1) % videos.length);
   });
-
-  // громкость
-  volume.addEventListener('input', () => {
-    userInteracted = true;
-    videos.forEach((v, i) => {
-      if(i === current){
-        v.muted = false;
-        v.volume = volume.value;
-      } else {
-        v.muted = true;
-      }
-    });
-  });
-
-  // переключение по окончанию видео
-  videos.forEach((v, i) => {
-    v.addEventListener('ended', () => {
-      v.classList.remove('active');
-      current = (i + 1) % videos.length;
-      videos[current].classList.add('active');
-
-      if(userInteracted){
-        videos[current].muted = false;
-        videos[current].volume = volume.value;
-      }
-      videos[current].play().catch(()=>{});
-    });
-  });
+});
 </script>
 
 </body>
