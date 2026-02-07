@@ -73,7 +73,6 @@
     .meta .title{font-weight:600}
     .meta .subtitle{font-size:13px;color:var(--muted)}
 
-    /* ===== Background videos ===== */
     .bg-video-wrapper{
       position:fixed;
       inset:0;
@@ -96,7 +95,6 @@
     }
     .bg-video.active{opacity:0.35}
 
-    /* ===== Volume slider ===== */
     .volume-control{
       position:fixed;
       top:20px;
@@ -117,7 +115,6 @@
 
 <body>
 
-<!-- ===== Background videos ===== -->
 <div class="bg-video-wrapper">
   <video class="bg-video active" src="bg1.mp4" playsinline></video>
   <video class="bg-video" src="bg2.mp4" playsinline></video>
@@ -208,7 +205,7 @@
     </a>
 
     <!-- Discord -->
-    <a class="link" href="https://discord.gg/9FN6p5gaPZ" target="_blank">
+    <a class="link" href="https://discord.gg/YfHYpv58B6" target="_blank">
       <div class="icon">DS</div>
       <div class="meta">
         <div class="title">Discord</div>
@@ -227,7 +224,6 @@ const volume = document.querySelector('.volume-control input');
 let current = 0;
 let userInteracted = false;
 
-// инициализация
 videos.forEach((v, i) => {
   v.muted = true;
   v.pause();
@@ -235,17 +231,14 @@ videos.forEach((v, i) => {
   if (i === 0) v.classList.add('active');
 });
 
-// старт первого
 videos[0].play().catch(()=>{});
 
-// громкость
 volume.addEventListener('input', () => {
   userInteracted = true;
   videos[current].muted = false;
   videos[current].volume = volume.value;
 });
 
-// переключение функции
 function switchVideo(next) {
   if (videos.length <= 1) return;
 
@@ -262,7 +255,6 @@ function switchVideo(next) {
   videos[current].play().catch(()=>{});
 }
 
-// 🔁 переключение ПО ОКОНЧАНИЮ видео
 videos.forEach((video, index) => {
   video.addEventListener('ended', () => {
     switchVideo((index + 1) % videos.length);
