@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eto_shto</title>
+  <style>
+    :root {
+      --panel-bg: rgba(10, 10, 18, 0.62);
+      --panel-border: rgba(255, 255, 255, 0.12);
+      --text: #f2f4ff;
+      --muted: rgba(242, 244, 255, 0.72);
+      --accent: #9b8cff;
+      --accent-2: #62d0ff;
+      --shadow: 0 20px 70px rgba(0, 0, 0, 0.45);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: #050509;
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      background: #050509;
+    }
+
+    .bg-video,
+    .bg-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 1;
+      transition: opacity .35s ease, transform .35s ease;
+      transform: scale(1.02);
+    }
+
+    .bg-image {
+      opacity: 0;
+    }
+
+    .bg-image.visible {
+      opacity: 1;
+    }
+
+    .bg-video.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(circle at top, rgba(155, 140, 255, 0.24), transparent 40%),
+        linear-gradient(180deg, rgba(5, 5, 9, 0.26), rgba(5, 5, 9, 0.74));
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: min(920px, 100%);
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 24px;
+    }
+
+    .top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 42px);
+      letter-spacing: 0.02em;
+    }
+
+    .brand p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .controls {
+      width: min(340px, 100%);
+      display: grid;
+      gap: 12px;
+    }
+
+    .control-row {
+      display: grid;
+      gap: 8px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .control-row label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+    }
+
+    .btn {
+      appearance: none;
+      border: 0;
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #0c0d14;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      cursor: pointer;
+      transition: transform .18s ease, filter .18s ease;
+    }
+
+    .btn:hover { filter: brightness(1.05); }
+    .btn:active { transform: translateY(1px); }
+
+    .status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #4eff7e;
+      box-shadow: 0 0 18px rgba(78, 255, 126, 0.55);
+      flex: 0 0 auto;
+    }
+
+    .links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 12px 14px;
+      text-decoration: none;
+      text-align: center;
+      border-radius: 16px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      word-break: break-word;
+    }
+
+    .link-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .footer {
+      margin-top: 16px;
+      color: rgba(242, 244, 255, 0.5);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      .card { padding: 18px; border-radius: 22px; }
+      .controls { width: 100%; }
+      .top { align-items: stretch; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-layer" aria-hidden="true">
+    <video id="bgVideo" class="bg-video" autoplay loop playsinline muted preload="auto"></video>
+    <img id="bgImage" class="bg-image" alt="Фон сайта" />
+  </div>
+  <div class="overlay" aria-hidden="true"></div>
+
+  <main class="wrap">
+    <section class="card">
+      <div class="top">
+        <div class="brand">
+          <h1>eto_shto</h1>
+          <p>Links | Games</p>
+        </div>
+
+        <div class="controls">
+          <div class="control-row">
+            <label for="volume">Громкость: <span id="volumeValue">70%</span></label>
+            <input id="volume" type="range" min="0" max="100" value="70" />
+          </div>
+
+          <button id="toggleBackground" class="btn" type="button">Фон: видео</button>
+
+          <div class="status">
+            <span style="display:flex;align-items:center;gap:10px;"><span class="dot"></span><span id="modeLabel">Видео включено</span></span>
+            <span id="deviceLabel">Desktop</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="links">
+        <a class="link-btn" href="https://t.me/eto_shto_tg_akk" target="_blank" rel="noopener noreferrer">TG Telegram t.me/eto_shto_tg_akk</a>
+        <a class="link-btn" href="https://t.me/eto_shto_tg_kanal" target="_blank" rel="noopener noreferrer">TG Telegram канал t.me/eto_shto_tg_kanal</a>
+        <a class="link-btn" href="https://www.tiktok.com/@eto_shto_kanal_v_tt" target="_blank" rel="noopener noreferrer">TT TikTok @eto_shto_kanal_v_tt</a>
+        <a class="link-btn" href="https://www.youtube.com/@eto_shto_kanал_v_yt" target="_blank" rel="noopener noreferrer">YT YouTube @eto_shto_kanал_v_yt</a>
+        <a class="link-btn" href="https://minecraft-inside.ru" target="_blank" rel="noopener noreferrer">MC Minecraft-Inside eto_shto_main</a>
+        <a class="link-btn" href="https://www.twitch.tv/eto_shto_twitch" target="_blank" rel="noopener noreferrer">TW Twitch eto_shto_twitch</a>
+        <a class="link-btn" href="https://steamcommunity.com/id/eto_shto_akk" target="_blank" rel="noopener noreferrer">ST Steam eto_shto_akk</a>
+        <a class="link-btn" href="https://link.standoff2.com" target="_blank" rel="noopener noreferrer">SO2 Standoff 2 profile</a>
+        <a class="link-btn" href="https://discord.gg" target="_blank" rel="noopener noreferrer">DS Discord discord.gg</a>
+        <a class="link-btn" href="https://block-display.com" target="_blank" rel="noopener noreferrer">BD BDEngine block-display.com</a>
+      </div>
+
+      <div class="footer">Фон переключается кнопкой. В фото-режиме рандомится одна из ph1–ph3 или phm1–phm3 на мобилке.</div>
+    </section>
+  </main>
+
+  <audio id="bgMusic" preload="auto" loop></audio>
+
+  <script>
+    const videoFiles = ['bg1.mp4', 'bg2.mp4', 'bg3.mp4'];
+    const desktopPhotoBases = ['ph1', 'ph2', 'ph3'];
+    const mobilePhotoBases = ['phm1', 'phm2', 'phm3'];
+    const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+    const musicFile = 'music.mp3';
+
+    const bgVideo = document.getElementById('bgVideo');
+    const bgImage = document.getElementById('bgImage');
+    const bgMusic = document.getElementById('bgMusic');
+    const toggleBackground = document.getElementById('toggleBackground');
+    const volume = document.getElementById('volume');
+    const volumeValue = document.getElementById('volumeValue');
+    const modeLabel = document.getElementById('modeLabel');
+    const deviceLabel = document.getElementById('deviceLabel');
+
+    bgMusic.src = musicFile;
+
+    let currentMode = 'video';
+
+    function isMobileDevice() {
+      return window.matchMedia('(max-width: 768px)').matches || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+    }
+
+    function randomItem(items) {
+      return items[Math.floor(Math.random() * items.length)];
+    }
+
+    function setAudioVolume() {
+      const level = Number(volume.value) / 100;
+      bgVideo.volume = level;
+      bgMusic.volume = level;
+      volumeValue.textContent = `${volume.value}%`;
+    }
+
+    async function playSafely(media) {
+      try {
+        await media.play();
+      } catch (err) {
+        // Автовоспроизведение может быть заблокировано браузером, это нормально.
+      }
+    }
+
+    function stopAll() {
+      bgVideo.pause();
+      bgMusic.pause();
+    }
+
+    function setVideoMode({ allowSound = false } = {}) {
+      currentMode = 'video';
+      const file = randomItem(videoFiles);
+
+      bgImage.classList.remove('visible');
+      bgImage.removeAttribute('src');
+      bgVideo.classList.remove('hidden');
+      bgVideo.src = file;
+      bgVideo.load();
+
+      stopAll();
+      bgVideo.muted = !allowSound || Number(volume.value) === 0;
+      setAudioVolume();
+      playSafely(bgVideo);
+
+      toggleBackground.textContent = 'Фон: видео';
+      modeLabel.textContent = `Видео: ${file}`;
+    }
+
+    async function findImageSource(base) {
+      for (const ext of imageExtensions) {
+        const src = `${base}${ext}`;
+        const ok = await new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve(true);
+          img.onerror = () => resolve(false);
+          img.src = src;
+        });
+        if (ok) return src;
+      }
+      return `${base}.jpg`;
+    }
+
+    async function setPhotoMode() {
+      currentMode = 'photo';
+      const bases = isMobileDevice() ? mobilePhotoBases : desktopPhotoBases;
+      const base = randomItem(bases);
+      const src = await findImageSource(base);
+
+      bgVideo.classList.add('hidden');
+      bgVideo.pause();
+      bgImage.src = src;
+      bgImage.classList.add('visible');
+
+      stopAll();
+      setAudioVolume();
+      playSafely(bgMusic);
+
+      toggleBackground.textContent = 'Фон: фото';
+      modeLabel.textContent = `Фото: ${base}`;
+    }
+
+    async function toggleMode() {
+      if (currentMode === 'video') {
+        await setPhotoMode();
+      } else {
+        setVideoMode({ allowSound: true });
+      }
+    }
+
+    volume.addEventListener('input', () => {
+      if (currentMode === 'video') {
+        bgVideo.muted = Number(volume.value) === 0;
+      }
+      setAudioVolume();
+
+      if (currentMode === 'video' && bgVideo.paused) {
+        playSafely(bgVideo);
+      }
+      if (currentMode === 'photo' && bgMusic.paused) {
+        playSafely(bgMusic);
+      }
+    });
+
+    toggleBackground.addEventListener('click', () => {
+      toggleMode();
+    });
+
+    window.addEventListener('resize', () => {
+      deviceLabel.textContent = isMobileDevice() ? 'Mobile' : 'Desktop';
+    });
+
+    deviceLabel.textContent = isMobileDevice() ? 'Mobile' : 'Desktop';
+    setAudioVolume();
+    setVideoMode({ allowSound: false });
+  </script>
+</body>
+</html>
