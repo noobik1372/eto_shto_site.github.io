@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>eto_shto — ссылки</title>
+
+  <style>
+    :root{
+      --bg:#0f1226;
+      --card:#111323;
+      --accent:#7c5cff;
+      --muted:#9aa0b4;
+      --glass: rgba(255,255,255,0.04);
+    }
+    *{box-sizing:border-box}
+
+    html,body{
+      margin:0;
+      min-height:100%;
+    }
+
+    body{
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+      color:#e6e9f2;
+      background:linear-gradient(180deg,var(--bg),#070712);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      overflow-x:hidden;
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+    }
+
+    .card{
+      width:100%;
+      max-width:420px;
+      background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);
+      border-radius:18px;
+      padding:28px;
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow:0 10px 30px rgba(2,6,23,0.6);
+      z-index:3;
+      position:relative;
+      backdrop-filter: blur(6px);
+    }
+
+    h1{margin:0;font-size:20px;text-align:center}
+    p.lead{color:var(--muted);margin:6px 0 18px;text-align:center}
+
+    .links{display:grid;gap:12px}
+
+    .link{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px 14px;
+      background:var(--card);
+      border-radius:12px;
+      text-decoration:none;
+      color:inherit;
+      border:1px solid rgba(255,255,255,0.03);
+      transition:transform .12s ease,box-shadow .12s ease, border-color .12s ease;
+    }
+    .link:hover{
+      transform:translateY(-4px);
+      box-shadow:0 8px 20px rgba(124,92,255,0.12);
+      border-color:rgba(124,92,255,0.35);
+    }
+
+    .icon{
+      width:44px;
+      height:44px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      background:var(--glass);
+      flex:0 0 44px
+    }
+
+    .meta .title{font-weight:600}
+    .meta .subtitle{font-size:13px;color:var(--muted)}
+
+    .bg-video-wrapper{
+      position:fixed;
+      inset:0;
+      z-index:0;
+      overflow:hidden;
+      background:#000;
+    }
+
+    .bg-video,
+    #bgImage,
+    .bg-overlay{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+    }
+
+    .bg-video{
+      object-fit:cover;
+      opacity:0;
+      transition:opacity 1.15s ease, filter 1.15s ease;
+      filter:brightness(1) saturate(1);
+    }
+    .bg-video.active{opacity:0.35}
+
+    #bgImage,
+    #bgImageNext{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center center;
+      opacity:0;
+      transition:opacity 900ms ease;
+      z-index:1;
+      pointer-events:none;
+      transform:none !important;
+      will-change:opacity;
+      backface-visibility:hidden;
+    }
+
+    #bgImageNext{
+      z-index:2;
+    }
+
+    .bg-overlay{
+      z-index:3;
+      background:rgba(0,0,0,0);
+      transition:background 1.15s ease;
+      pointer-events:none;
+    }
+
+    .photo-mode .bg-video.active{
+      opacity:0;
+    }
+
+    .photo-mode #bgImage,
+    .photo-mode #bgImageNext{
+      opacity:1;
+    }
+
+    .photo-mode .bg-overlay{
+      background:rgba(0,0,0,0.86);
+    }
+
+    .volume-control{
+      position:fixed;
+      right:20px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      background:rgba(0,0,0,.6);
+      padding:8px 12px;
+      border-radius:12px;
+      color:#fff;
+      backdrop-filter:blur(8px);
+      z-index:5;
+      user-select:none;
+    }
+
+    .volume-control input{
+      width:90px;
+    }
+
+    .volume-control button{
+      background:none;
+      border:none;
+      color:#fff;
+      cursor:pointer;
+      padding:0;
+      font:inherit;
+      line-height:1;
+    }
+
+    .bg-switch{
+      top:20px;
+    }
+
+    .volume-main{
+      top:62px;
+    }
+
+    @media (max-width:520px){
+      body{
+        align-items:flex-start;
+        justify-content:flex-start;
+        padding:16px;
+      }
+
+      .card{
+        width:100%;
+        max-width:100%;
+        padding:22px;
+        margin:0 auto;
+      }
+
+      .volume-control{
+        right:14px;
+      }
+
+      .volume-control input{
+        width:74px;
+      }
+
+      .bg-switch{
+        display:none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="bg-video-wrapper" id="bgWrapper">
+  <video class="bg-video active" src="bg1.mp4" playsinline></video>
+  <video class="bg-video" src="bg2.mp4" playsinline></video>
+  <video class="bg-video" src="bg3.mp4" playsinline></video>
+
+  <img id="bgImage" alt="background photo" />
+  <img id="bgImageNext" alt="" aria-hidden="true" />
+  <div class="bg-overlay"></div>
+</div>
+
+<div class="volume-control bg-switch">
+  🎛️
+  <button id="bgToggle" type="button">ФОТО</button>
+</div>
+
+<div class="volume-control volume-main">
+  🔊
+  <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0">
+</div>
+
+<main class="card">
+  <h1>eto_shto</h1>
+  <p class="lead">Links | Games</p>
+
+  <section class="links">
+
+    <!-- Telegram 1 -->
+    <a class="link" href="https://t.me/eto_shto_tg_akk" target="_blank" rel="noopener noreferrer">
+      <div class="icon">TG</div>
+      <div class="meta">
+        <div class="title">Telegram</div>
+        <div class="subtitle">t.me/eto_shto_tg_akk</div>
+      </div>
+    </a>
+
+    <!-- Telegram 2 -->
+    <a class="link" href="https://t.me/eto_shto_tg_kanal" target="_blank" rel="noopener noreferrer">
+      <div class="icon">TG</div>
+      <div class="meta">
+        <div class="title">Telegram канал</div>
+        <div class="subtitle">t.me/eto_shto_tg_kanal</div>
+      </div>
+    </a>
+
+    <!-- TikTok -->
+    <a class="link" href="https://www.tiktok.com/@eto_shto_kanal_v_tt" target="_blank" rel="noopener noreferrer">
+      <div class="icon">TT</div>
+      <div class="meta">
+        <div class="title">TikTok</div>
+        <div class="subtitle">@eto_shto_kanal_v_tt</div>
+      </div>
+    </a>
+
+    <!-- YouTube -->
+    <a class="link" href="https://youtube.com/@eto_shto_kanal_v_yt" target="_blank" rel="noopener noreferrer">
+      <div class="icon">YT</div>
+      <div class="meta">
+        <div class="title">YouTube</div>
+        <div class="subtitle">@eto_shto_kanal_v_yt</div>
+      </div>
+    </a>
+
+    <!-- Minecraft Inside -->
+    <a class="link" href="https://minecraft-inside.ru/user/eto_shto_main/" target="_blank" rel="noopener noreferrer">
+      <div class="icon">MC</div>
+      <div class="meta">
+        <div class="title">Minecraft-Inside</div>
+        <div class="subtitle">eto_shto_main</div>
+      </div>
+    </a>
+
+    <!-- Twitch -->
+    <a class="link" href="https://www.twitch.tv/eto_shto_twitch" target="_blank" rel="noopener noreferrer">
+      <div class="icon">TW</div>
+      <div class="meta">
+        <div class="title">Twitch</div>
+        <div class="subtitle">eto_shto_twitch</div>
+      </div>
+    </a>
+
+    <!-- Steam -->
+    <a class="link" href="https://steamcommunity.com/id/eto_shto_akk/" target="_blank" rel="noopener noreferrer">
+      <div class="icon">ST</div>
+      <div class="meta">
+        <div class="title">Steam</div>
+        <div class="subtitle">eto_shto_akk</div>
+      </div>
+    </a>
+
+    <!-- Standoff 2 -->
+    <a class="link" href="https://link.standoff2.com/ru/profile/view/180375348" target="_blank" rel="noopener noreferrer">
+      <div class="icon">SO2</div>
+      <div class="meta">
+        <div class="title">Standoff 2</div>
+        <div class="subtitle">profile</div>
+      </div>
+    </a>
+
+    <!-- Discord -->
+    <a class="link" href="https://discord.gg/YfHYpv58B6" target="_blank" rel="noopener noreferrer">
+      <div class="icon">DS</div>
+      <div class="meta">
+        <div class="title">Discord</div>
+        <div class="subtitle">discord.gg</div>
+      </div>
+    </a>
+
+    <a class="link" href="https://block-display.com/author/eto_shto_mc/" target="_blank" rel="noopener noreferrer">
+      <div class="icon">BD</div>
+      <div class="meta">
+        <div class="title">BDEngine</div>
+        <div class="subtitle">block-display.com</div>
+      </div>
+    </a>
+
+  </section>
+</main>
+
+
+<script>
+const wrapper = document.getElementById('bgWrapper');
+const videos = document.querySelectorAll('.bg-video');
+const bgImage = document.getElementById('bgImage');
+const bgImageNext = document.getElementById('bgImageNext');
+const bgToggle = document.getElementById('bgToggle');
+const volume = document.getElementById('volumeSlider');
+
+const music = new Audio('music.mp3');
+music.loop = true;
+music.preload = 'auto';
+
+const PHOTO_CYCLE_MS = 7000;
+const PHOTO_FADE_MS = 900;
+const PHOTO_CANDIDATES = 10;
+
+let musicFallbackBound = false;
+let current = 0;
+let userInteracted = false;
+let photoMode = false;
+let videoFadeTimer = null;
+let musicFadeTimer = null;
+let photoCycleTimer = null;
+let photoTransitionTimer = null;
+let activePhoto = '';
+let activeLayer = bgImage;
+let standbyLayer = bgImageNext;
+let desktopPhotos = [];
+let mobilePhotos = [];
+let photosReady = false;
+let photoTransitionInProgress = false;
+
+function ensureMusicPlayback() {
+  music.play().then(() => {
+    if (musicFallbackBound) {
+      window.removeEventListener('pointerdown', ensureMusicPlayback, { passive: true });
+      window.removeEventListener('touchstart', ensureMusicPlayback, { passive: true });
+      window.removeEventListener('click', ensureMusicPlayback, { passive: true });
+      musicFallbackBound = false;
+    }
+  }).catch(() => {
+    if (musicFallbackBound) return;
+    musicFallbackBound = true;
+    window.addEventListener('pointerdown', ensureMusicPlayback, { passive: true, once: true });
+    window.addEventListener('touchstart', ensureMusicPlayback, { passive: true, once: true });
+    window.addEventListener('click', ensureMusicPlayback, { passive: true, once: true });
+  });
+}
+
+function isMobile() {
+  return window.matchMedia('(pointer: coarse)').matches || /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
+const mobileLocked = isMobile();
+if (mobileLocked) {
+  photoMode = true;
+  wrapper.classList.add('photo-mode');
+  if (bgToggle) bgToggle.remove();
+}
+
+function clamp01(value) {
+  return Math.max(0, Math.min(1, Number(value) || 0));
+}
+
+function stopTimer(which) {
+  if (which === 'video' && videoFadeTimer !== null) {
+    clearInterval(videoFadeTimer);
+    videoFadeTimer = null;
+  }
+  if (which === 'music' && musicFadeTimer !== null) {
+    clearInterval(musicFadeTimer);
+    musicFadeTimer = null;
+  }
+}
+
+function stopPhotoCycle() {
+  if (photoCycleTimer !== null) {
+    clearInterval(photoCycleTimer);
+    photoCycleTimer = null;
+  }
+  if (photoTransitionTimer !== null) {
+    clearTimeout(photoTransitionTimer);
+    photoTransitionTimer = null;
+  }
+  photoTransitionInProgress = false;
+}
+
+function fadeVolume(media, from, to, duration, which, onDone) {
+  stopTimer(which);
+
+  const start = clamp01(from);
+  const end = clamp01(to);
+  const total = Math.max(1, Number(duration) || 1);
+  const startTime = performance.now();
+
+  media.volume = start;
+
+  const timer = setInterval(() => {
+    const elapsed = performance.now() - startTime;
+    const progress = Math.min(1, elapsed / total);
+    media.volume = clamp01(start + (end - start) * progress);
+
+    if (progress >= 1) {
+      stopTimer(which);
+      media.volume = end;
+      if (typeof onDone === 'function') onDone();
+    }
+  }, 30);
+
+  if (which === 'video') videoFadeTimer = timer;
+  if (which === 'music') musicFadeTimer = timer;
+}
+
+function loadImage(url) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve({ url, ok: true });
+    img.onerror = () => resolve({ url, ok: false });
+    img.src = url;
+  });
+}
+
+async function resolvePhotoPool(prefix) {
+  const files = Array.from({ length: PHOTO_CANDIDATES }, (_, i) => `${prefix}${i + 1}.jpg`);
+  const results = await Promise.all(files.map(loadImage));
+  return results.filter(item => item.ok).map(item => item.url);
+}
+
+
+function getPhotoPool() {
+  return isMobile() ? mobilePhotos : desktopPhotos;
+}
+
+function pickNextPhoto() {
+  const pool = getPhotoPool();
+  if (!pool.length) return '';
+  if (pool.length === 1) return pool[0];
+
+  let candidate = pool[Math.floor(Math.random() * pool.length)];
+  while (candidate === activePhoto && pool.length > 1) {
+    candidate = pool[Math.floor(Math.random() * pool.length)];
+  }
+  return candidate;
+}
+
+function swapLayers() {
+  const temp = activeLayer;
+  activeLayer = standbyLayer;
+  standbyLayer = temp;
+}
+
+function setLayerOpacity(layer, value) {
+  layer.style.opacity = String(value);
+}
+
+function setLayerImage(layer, url) {
+  layer.src = url;
+}
+
+function showPhoto(url, immediate = false) {
+  if (!url) return;
+
+  if (photoTransitionInProgress) return;
+  photoTransitionInProgress = true;
+
+  if (photoTransitionTimer !== null) {
+    clearTimeout(photoTransitionTimer);
+    photoTransitionTimer = null;
+  }
+
+  standbyLayer.style.transition = `opacity ${PHOTO_FADE_MS}ms ease`;
+  activeLayer.style.transition = `opacity ${PHOTO_FADE_MS}ms ease`;
+  setLayerImage(standbyLayer, url);
+
+  const startFade = () => {
+    requestAnimationFrame(() => {
+      if (immediate) {
+        setLayerOpacity(activeLayer, 1);
+        setLayerOpacity(standbyLayer, 0);
+        activePhoto = url;
+        photoTransitionInProgress = false;
+        return;
+      }
+
+      setLayerOpacity(standbyLayer, 1);
+      setLayerOpacity(activeLayer, 0);
+
+      photoTransitionTimer = setTimeout(() => {
+        activePhoto = url;
+        swapLayers();
+        photoTransitionTimer = null;
+        photoTransitionInProgress = false;
+      }, PHOTO_FADE_MS);
+    });
+  };
+
+  if (standbyLayer.complete && standbyLayer.naturalWidth > 0) {
+    startFade();
+  } else {
+    standbyLayer.onload = () => {
+      standbyLayer.onload = null;
+      startFade();
+    };
+    standbyLayer.onerror = () => {
+      standbyLayer.onerror = null;
+      photoTransitionInProgress = false;
+    };
+  }
+}
+
+function startPhotoCycle(immediate = false) {
+  const pool = getPhotoPool();
+  if (!pool.length) return;
+
+  stopPhotoCycle();
+
+  if (immediate || !activePhoto) {
+    showPhoto(pickNextPhoto(), true);
+  }
+
+  photoCycleTimer = setInterval(() => {
+    if (!photoMode) return;
+    const next = pickNextPhoto();
+    if (next) showPhoto(next, false);
+  }, PHOTO_CYCLE_MS);
+}
+
+function applyVolumeTarget() {
+
+  const target = clamp01(volume.value);
+  if (photoMode) {
+    music.volume = target;
+  } else {
+    const video = videos[current];
+    if (video) {
+      video.muted = false;
+      video.volume = target;
+    }
+  }
+}
+
+function fadeToPhoto() {
+  const video = videos[current];
+  photoMode = true;
+  wrapper.classList.add('photo-mode');
+  if (bgToggle) bgToggle.textContent = 'ВИДЕО';
+
+  userInteracted = true;
+  video.muted = false;
+  video.play().catch(() => {});
+
+  if (photosReady && !photoCycleTimer) {
+    activeLayer = bgImage;
+    standbyLayer = bgImageNext;
+    startPhotoCycle(!activePhoto);
+  }
+
+  try {
+    music.currentTime = 0;
+  } catch (e) {}
+
+  ensureMusicPlayback();
+
+  fadeVolume(video, video.volume, 0, 900, 'video');
+  fadeVolume(music, 0, clamp01(volume.value), 1000, 'music');
+}
+
+function fadeToVideo() {
+  if (mobileLocked) return;
+
+  const video = videos[current];
+  photoMode = false;
+  wrapper.classList.remove('photo-mode');
+  if (bgToggle) bgToggle.textContent = 'ФОТО';
+
+  stopPhotoCycle();
+
+  userInteracted = true;
+  video.muted = false;
+  video.play().catch(() => {});
+
+  fadeVolume(music, music.volume, 0, 850, 'music', () => {
+    music.pause();
+    try {
+      music.currentTime = 0;
+    } catch (e) {}
+  });
+
+  fadeVolume(video, video.volume, clamp01(volume.value), 900, 'video');
+}
+
+function toggleBackgroundMode() {
+  if (mobileLocked) return;
+  if (photoMode) {
+    fadeToVideo();
+  } else {
+    fadeToPhoto();
+  }
+}
+
+async function initPhotoPools() {
+  [desktopPhotos, mobilePhotos] = await Promise.all([
+    resolvePhotoPool('ph'),
+    resolvePhotoPool('phm')
+  ]);
+
+  photosReady = true;
+
+  if (photoMode) {
+    activeLayer = bgImage;
+    standbyLayer = bgImageNext;
+    bgImage.style.opacity = '1';
+    bgImageNext.style.opacity = '0';
+    startPhotoCycle(true);
+    ensureMusicPlayback();
+  }
+}
+
+videos.forEach((v, i) => {
+  v.muted = true;
+  v.pause();
+  v.currentTime = 0;
+  if (i === 0) v.classList.add('active');
+
+  if (mobileLocked) {
+    v.removeAttribute('src');
+    v.load();
+  }
+});
+
+if (!mobileLocked) {
+  videos[0].play().catch(() => {});
+} else {
+  music.volume = clamp01(volume.value);
+  ensureMusicPlayback();
+}
+
+volume.addEventListener('input', () => {
+  userInteracted = true;
+  applyVolumeTarget();
+});
+
+if (bgToggle) bgToggle.addEventListener('click', toggleBackgroundMode);
+
+function switchVideo(next) {
+  if (mobileLocked || videos.length <= 1) return;
+
+  const prev = videos[current];
+  prev.pause();
+  prev.currentTime = 0;
+  prev.classList.remove('active');
+
+  current = (next + videos.length) % videos.length;
+  const nextVideo = videos[current];
+
+  nextVideo.classList.add('active');
+  nextVideo.muted = !userInteracted;
+  nextVideo.volume = photoMode ? 0 : clamp01(volume.value);
+
+  nextVideo.play().catch(() => {});
+}
+
+if (!mobileLocked) {
+  videos.forEach((video, index) => {
+    video.addEventListener('ended', () => {
+      switchVideo(index + 1);
+    });
+  });
+}
+
+applyVolumeTarget();
+initPhotoPools();
+</script>
+
+</body>
+</html>
